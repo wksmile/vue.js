@@ -1,4 +1,4 @@
-new Vue({
+vm = new Vue({
     el: ".container",
     data: {
         limitNum: 3,

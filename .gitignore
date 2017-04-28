@@ -1,1 +1,4 @@
 node_modules
+
+# hello-vue工程为测试工程，不放进git仓库
+hello-vue

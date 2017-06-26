@@ -1,33 +1,83 @@
 <template>
   <div id="app">
-    <div class="header">
-    I am header
+    <v-header :seller="seller"> </v-header>
+    <div class="tab border-1px">
+      <div class="tab-item">
+        <router-link to="/goods">商品</router-link>
+      </div>
+      <div class="tab-item">
+        <router-link to="/ratings">评论</router-link>
+      </div>
+      <div class="tab-item">
+        <router-link to="/seller">商家</router-link>
+      </div>
     </div>
-    <div class="tab">
-    I am tab
-    </div>
-    <div class="content">
-    I am content
-    </div>
-
-  <!--  <img src="./assets/logo.png">
-    <router-view></router-view>  --> 
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
+  <!--  <img src="./assets/logo.png">
+    <router-view></router-view>  -->
 </template>
 
 <script>
-export default {
+  import header from './components/header/header.vue'
+  import {urlParse} from './common/js/util.js'
+
+  const ERR_OK = 0
+
+  export default {
+    data: function () {
+      return {
+        seller: {
+            id: (() => {
+              let queryParam = urlParse()
+              console.log(queryParam)
+              return queryParam.id
+            })()
+        }
+      }
+    },
+    created: function () {
+      this.$http.get('/api/seller?id=' + this.seller.id).then(response => {
+        // response.body返回的是对象，json()返回的是promise，具体看官网示例
+        response = response.body
+        if (response.errno === ERR_OK) {
+          //  this.seller = Object.assign({},this.seller.id)
+          this.seller = response.data
+          console.log(response.data)
+        }
+      }, response => {
+        console.log('err by created')
+      })
+    },
+    components: {
+      'v-header': header
+    }
+  }
+/* export default {
   name: 'app'
-}
+}   */
+// border-bottom: 1px solid rgba(7, 17, 27, 0.1)
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus" rel="stylesheet/stylus">
+  @import "./common/stylus/mixin.styl";
+
+  #app
+    .tab
+      display:flex
+      width:100%
+      height: 40px
+      line-height: 40px
+      border-1px(rgba(7, 17, 27, 0.1))
+      .tab-item
+        flex: 1
+        text-align: center
+        & > a
+          display: block
+          font-size: 14px
+          color: rgb(77, 85, 93)
+          &.active
+            color: rgb(240, 20, 20)
 </style>

@@ -3,6 +3,7 @@
 > sell app
 
 ## Build Setup
+直接运行dev就可以，或者运行node prod.server.js 即可
 
 ``` bash
 # install dependencies
@@ -42,21 +43,5 @@ http://i2.muimg.com/594909/a68272db331e406d.jpg
 
 http://i2.muimg.com/594909/37544c714a1da438.jpg
 
-    &.star-36
-      .star-item
-        width: 15px
-        height: 15px
-        margin-right : 16px
-        background-size : 15px 15px
-        &:last-child
-          margin-right :0
-        &.on
-          bg-image('star36_on')
-        &.half
-          bg-image('star36_half')
-        &.off
-          bg-image('star36_off')
-
 在动画设计中，如果只是改变元素的样式如已有background样式的透明副，在动画中改变透明度，则直接在transition按vue的写。若原来的元素中没有此样式，则可以添加一个默认样式。
 
-8-1
